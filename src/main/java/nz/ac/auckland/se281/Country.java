@@ -12,7 +12,7 @@ public class Country {
 
   /**
    * This is the constructor for the Country class it initializes the country
-   * object
+   * object.
    * 
    * @param id        the hashcode/id of the country
    * @param name      the name of the country
@@ -28,44 +28,44 @@ public class Country {
   }
 
   /**
-   * This method returns the name of the country
+   * This method returns the name of the country.
    * 
-   * @return returns the name of the country as a string
+   * @return returns the name of the country as a string.
    */
   public String getName() {
     return name;
   }
 
   /**
-   * This method returns the continent the country is located in
+   * This method returns the continent the country is located in.
    * 
-   * @return returns the continent the country is located in as a string
+   * @return returns the continent the country is located in as a string.
    */
   public String getContinent() {
     return continent;
   }
 
   /**
-   * This method returns the cost of crossing the border to the country
+   * This method returns the cost of crossing the border to the country.
    * 
-   * @return returns the cost of crossing the border to the country as an integer
+   * @return returns the cost of crossing the border to the country as an integer.
    */
   public int getCost() {
     return cost;
   }
 
   /**
-   * This method returns the id of the country
+   * This method returns the id of the country.
    * 
-   * @return returns the id of the country as a string
+   * @return returns the id of the country as a string.
    */
   public String getId() {
     return id;
   }
 
   /**
-   * This method overrides the hashcode method to set the hashcode of this country
-   * object
+   * This method overrides the hashcode method to set the hashcode of this
+   * country object.
    */
   @Override
   public int hashCode() {
@@ -76,23 +76,30 @@ public class Country {
   }
 
   /**
-   * This method overrides the equals method to compare two country objects based
-   * on their id
+   * This method overrides the equals method to compare two country objects.
    */
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
+    // if the object is the same as the country object
+    if (this == obj) {
       return true;
-    if (obj == null)
+    }
+    // if the object is null
+    if (obj == null) {
       return false;
-    if (getClass() != obj.getClass())
+    }
+    // if the object is not an instance of the country object
+    if (getClass() != obj.getClass()) {
       return false;
+    }
     Country other = (Country) obj;
     if (id == null) {
-      if (other.id != null)
+      if (other.id != null) {
         return false;
-    } else if (!id.equals(other.id))
+      }
+    } else if (!id.equals(other.id)) {
       return false;
+    }
     return true;
   }
 

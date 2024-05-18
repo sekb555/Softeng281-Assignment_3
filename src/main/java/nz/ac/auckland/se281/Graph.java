@@ -17,16 +17,16 @@ public class Graph {
   private Map<Country, List<Country>> adjNodes;
 
   /**
-   * This is the constructor for the Graph class it initializes the adjNodes map
+   * This is the constructor for the Graph class it initializes the adjNodes map.
    */
   public Graph() {
     this.adjNodes = new HashMap<>();
   }
 
   /**
-   * This method adds a country to the graph as a node
+   * This method adds a country to the graph as a node.
    * 
-   * @param node the country to add to the graph
+   * @param node the country to add to the graph.
    */
   public void addNode(Country node) {
     adjNodes.putIfAbsent(node, new ArrayList<>());
@@ -34,10 +34,10 @@ public class Graph {
 
   /**
    * This method adds an edge/link between two countries and also invokes the
-   * addNode method incase the nodes have not been added to the graph yet
+   * addNode method incase the nodes have not been added to the graph yet.
    * 
-   * @param node1 takes the first country
-   * @param node2 takes another country
+   * @param node1 takes the first country.
+   * @param node2 takes another country.
    */
   public void addEdge(Country node1, Country node2) {
     addNode(node1);
@@ -46,9 +46,9 @@ public class Graph {
   }
 
   /**
-   * This method removes a country from the graph
+   * This method removes a country from the graph.
    * 
-   * @param node the country to be removed
+   * @param node the country to be removed.
    */
   public void removeNode(Country node) {
     adjNodes.remove(node);
@@ -58,10 +58,10 @@ public class Graph {
   }
 
   /**
-   * This method removes an edge between two countries
+   * This method removes an edge between two countries.
    * 
-   * @param node1 takes the first country
-   * @param node2 takes another country
+   * @param node1 takes the first country.
+   * @param node2 takes another country.
    */
   public void removeEdge(Country node1, Country node2) {
     adjNodes.getOrDefault(node1, new ArrayList<>()).remove(node2);
@@ -72,10 +72,10 @@ public class Graph {
    * This method finds the shortest path between two countries by using the
    * breadth-first search algorithm.
    * 
-   * @param start The country where the journey starts
-   * @param end   The country where the jornery ends
+   * @param start The country where the journey starts.
+   * @param end   The country where the jornery ends.
    * @return A list of countries that represent the shortest path between the
-   *         start and end countries
+   *         start and end countries.
    */
   public List<Country> routeFinder(Country start, Country end) {
     // a list of the visited countries
@@ -89,7 +89,8 @@ public class Graph {
     visited.add(start);
     // while the queue is not empty
     while (!queue.isEmpty()) {
-      Country node = queue.poll();// get the first country in the queue
+      // get the first country in the queue
+      Country node = queue.poll();
 
       // if the current country is the end country then the path is reconstructed for
       // the shortest path

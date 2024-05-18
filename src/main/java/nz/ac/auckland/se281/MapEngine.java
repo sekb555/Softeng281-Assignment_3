@@ -158,7 +158,7 @@ public class MapEngine {
    * country set.
    * 
    * @return the country input if it is valid and an exception if it is not.
-   * @throws NonExistentCountryException
+   * @throws NonExistentCountryException if the country input is not valid.
    */
   public String checkCountryInput(String input) throws NonExistentCountryException {
     // check if the country input is valid

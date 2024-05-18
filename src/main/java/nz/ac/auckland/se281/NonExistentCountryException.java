@@ -8,9 +8,9 @@ public class NonExistentCountryException extends Exception {
 
   /**
    * This is the constructor for the NonExistentCountryException class it prints
-   * the message to the user
+   * the message to the user.
    * 
-   * @param input the input that the user has entered
+   * @param input the input that the user has entered.
    */
   public NonExistentCountryException(String input) {
     super();
