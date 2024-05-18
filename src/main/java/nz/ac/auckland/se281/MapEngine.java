@@ -14,6 +14,7 @@ public class MapEngine {
   private String destinationCountry = null;
   private String countryInput;
 
+  /** This is the constructor for the MapEngine class. */
   public MapEngine() {
     graph = new Graph();
     // add other code here if you want
@@ -24,11 +25,13 @@ public class MapEngine {
   private void loadMap() {
     List<String> countries = Utils.readCountries();
     countryList = new LinkedList<>();
+    // adds all the countries to the countryList
     for (int i = 0; i < countries.size(); i++) {
       String[] data = countries.get(i).split(",");
       countryList.add(new Country(String.valueOf(i), data[0], data[1], Integer.parseInt(data[2])));
     }
 
+    // maps out all of the adjacencies between the countries
     List<String> adjacencies = Utils.readAdjacencies();
     for (String adjacency : adjacencies) {
       String[] data = adjacency.split(",");
@@ -53,6 +56,8 @@ public class MapEngine {
 
   /** this method is invoked when the user run the command info-country. */
   public void showInfoCountry() {
+    // sets the country input by user and checks if it is valid if not then it asks
+    // the user to input again
     try {
       MessageCli.INSERT_COUNTRY.printMessage();
       countryInput = Utils.capitalizeFirstLetterOfEachWord(Utils.scanner.nextLine());
@@ -62,6 +67,7 @@ public class MapEngine {
       return;
     }
 
+    // prints the information of the country
     for (Country country : countryList) {
       if (country.getName().equals(countryInput)) {
         MessageCli.COUNTRY_INFO.printMessage(country.getName(), country.getContinent(),
@@ -73,6 +79,8 @@ public class MapEngine {
 
   /** this method is invoked when the user run the command route. */
   public void showRoute() {
+    // sets the source and destination countries by user input and checks if they
+    // are valid if not then it asks the user to input again
     if (sourceCountry == null) {
       try {
         MessageCli.INSERT_SOURCE.printMessage();
@@ -95,11 +103,14 @@ public class MapEngine {
         return;
       }
     }
+    // checks if the source and destination countries are the same then it prints
+    // the appropriate message as no cross border travel is required
     if (sourceCountry.equals(destinationCountry)) {
       MessageCli.NO_CROSSBORDER_TRAVEL.printMessage();
       return;
     }
 
+    // assigns the user input to country objects of the same name
     Country start = null;
     Country end = null;
     for (int i = 0; i < countryList.size(); i++) {
@@ -114,6 +125,7 @@ public class MapEngine {
       }
     }
 
+    // finds the shortest path between the source and destination countries
     List<Country> route = graph.routeFinder(start, end);
     List<String> shortPath = new LinkedList<>();
     Set<String> continents = new LinkedHashSet<>();
@@ -123,16 +135,20 @@ public class MapEngine {
         continents.add(country.getContinent());
       }
     }
-    
+
+    // calculates the taxes to be paid to cross the borders not including the source
+    // country
     int taxes = 0;
-    for(int i = 1; i < route.size(); i++) {
+    for (int i = 1; i < route.size(); i++) {
       taxes += route.get(i).getCost();
     }
-    
+
+    // prints the shortest path, the continents visited and the taxes to be paid
     MessageCli.ROUTE_INFO.printMessage(shortPath.toString());
     MessageCli.CONTINENT_INFO.printMessage(continents.toString());
     MessageCli.TAX_INFO.printMessage(String.valueOf(taxes));
 
+    // resets the source and destination countries to null
     sourceCountry = null;
     destinationCountry = null;
   }
@@ -145,11 +161,13 @@ public class MapEngine {
    * @throws NonExistentCountryException
    */
   public String checkCountryInput(String input) throws NonExistentCountryException {
+    // check if the country input is valid
     for (Country country : countryList) {
       if (country.getName().equals(input)) {
         return input;
       }
     }
+    // throws an exception if the country input is not valid
     throw new NonExistentCountryException(input);
   }
 
