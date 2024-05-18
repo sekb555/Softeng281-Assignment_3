@@ -32,7 +32,7 @@ public class MapEngine {
   public void showInfoCountry() {
     try {
       countryInput = checkCountryInput();
-    } catch (NullPointerException e) {
+    } catch (NonExistentCountryException e) {
       MessageCli.INVALID_COUNTRY.printMessage(countryInput);
       showInfoCountry();
       return;
@@ -56,8 +56,9 @@ public class MapEngine {
    * country set.
    * 
    * @return the country input if it is valid and an exception if it is not.
+   * @throws NonExistentCountryException 
    */
-  public String checkCountryInput() {
+  public String checkCountryInput() throws NonExistentCountryException{
     MessageCli.INSERT_COUNTRY.printMessage();
     countryInput = Utils.capitalizeFirstLetterOfEachWord(Utils.scanner.nextLine());
     for (Country country : countrySet) {
@@ -65,6 +66,6 @@ public class MapEngine {
         return countryInput;
       }
     }
-    throw new NullPointerException();
+      throw new NonExistentCountryException();
   }
 }
