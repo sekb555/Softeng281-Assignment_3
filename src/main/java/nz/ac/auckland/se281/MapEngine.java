@@ -1,8 +1,9 @@
 package nz.ac.auckland.se281;
 
-import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /** This class is the main entry point. */
 public class MapEngine {
@@ -114,13 +115,16 @@ public class MapEngine {
     }
 
     List<Country> route = graph.routeFinder(start, end);
-    List<String> shortPath = new ArrayList<>();
+    List<String> shortPath = new LinkedList<>();
+    Set<String> continents = new LinkedHashSet<>();
     for (Country country : route) {
       if (country != null) {
         shortPath.add(country.getName());
+        continents.add(country.getContinent());
       }
     }
     MessageCli.ROUTE_INFO.printMessage(shortPath.toString());
+    MessageCli.CONTINENT_INFO.printMessage(continents.toString());
 
     sourceCountry = null;
     destinationCountry = null;
