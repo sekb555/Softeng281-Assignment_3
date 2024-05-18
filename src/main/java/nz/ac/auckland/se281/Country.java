@@ -1,9 +1,6 @@
 package nz.ac.auckland.se281;
 
-/**
- * This class allows for the creation of country objects that store information
- * about a country
- */
+/** This class allows for the creation of country objects that store information about a country. */
 public class Country {
   private String id;
   private String name;
@@ -11,14 +8,12 @@ public class Country {
   private int cost;
 
   /**
-   * This is the constructor for the Country class it initializes the country
-   * object.
-   * 
-   * @param id        the hashcode/id of the country
-   * @param name      the name of the country
+   * This is the constructor for the Country class it initializes the country object.
+   *
+   * @param id the hashcode/id of the country
+   * @param name the name of the country
    * @param continent the continent the country is located in
-   * @param cost      the amount of taxes that need to be paid to cross the border
-   *                  to the country
+   * @param cost the amount of taxes that need to be paid to cross the border to the country
    */
   public Country(String id, String name, String continent, int cost) {
     this.id = id;
@@ -28,8 +23,8 @@ public class Country {
   }
 
   /**
-   * This method returns the name of the country.
-   * 
+   * This method returns the name of the country for the code to use it in the output.
+   *
    * @return returns the name of the country as a string.
    */
   public String getName() {
@@ -37,8 +32,9 @@ public class Country {
   }
 
   /**
-   * This method returns the continent the country is located in.
-   * 
+   * This method returns the continent the country is located in for the code to use it in the
+   * output.
+   *
    * @return returns the continent the country is located in as a string.
    */
   public String getContinent() {
@@ -46,27 +42,16 @@ public class Country {
   }
 
   /**
-   * This method returns the cost of crossing the border to the country.
-   * 
+   * This method returns the cost of crossing the border to the country so that the user knows how
+   * much the trip will cost
+   *
    * @return returns the cost of crossing the border to the country as an integer.
    */
   public int getCost() {
     return cost;
   }
 
-  /**
-   * This method returns the id of the country.
-   * 
-   * @return returns the id of the country as a string.
-   */
-  public String getId() {
-    return id;
-  }
-
-  /**
-   * This method overrides the hashcode method to set the hashcode of this
-   * country object.
-   */
+  /** This method overrides the hashcode method to set the hashcode of this country object. */
   @Override
   public int hashCode() {
     final int prime = 31;
@@ -75,9 +60,7 @@ public class Country {
     return result;
   }
 
-  /**
-   * This method overrides the equals method to compare two country objects.
-   */
+  /** This method overrides the equals method to compare two country objects. */
   @Override
   public boolean equals(Object obj) {
     // if the object is the same as the country object
@@ -102,5 +85,4 @@ public class Country {
     }
     return true;
   }
-
 }

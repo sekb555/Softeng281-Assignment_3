@@ -70,8 +70,8 @@ public class MapEngine {
     // prints the information of the country
     for (Country country : countryList) {
       if (country.getName().equals(countryInput)) {
-        MessageCli.COUNTRY_INFO.printMessage(country.getName(), country.getContinent(),
-            String.valueOf(country.getCost()));
+        MessageCli.COUNTRY_INFO.printMessage(
+            country.getName(), country.getContinent(), String.valueOf(country.getCost()));
         return;
       }
     }
@@ -154,9 +154,8 @@ public class MapEngine {
   }
 
   /**
-   * This method is used to check if the country input is valid and exists in the
-   * country set.
-   * 
+   * This method is used to check if the country input is valid and exists in the country set.
+   *
    * @return the country input if it is valid and an exception if it is not.
    * @throws NonExistentCountryException if the country input is not valid.
    */
@@ -170,5 +169,4 @@ public class MapEngine {
     // throws an exception if the country input is not valid
     throw new NonExistentCountryException(input);
   }
-
 }

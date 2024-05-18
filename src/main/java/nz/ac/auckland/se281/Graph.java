@@ -9,23 +9,20 @@ import java.util.Map;
 import java.util.Queue;
 
 /**
- * This class represents a graph data structure that is used to store the
- * countries and the links between them
- * It also contains a method to find the shortest path between two countries
+ * This class represents a graph data structure that is used to store the countries and the links
+ * between them It also contains a method to find the shortest path between two countries.
  */
 public class Graph {
   private Map<Country, List<Country>> adjNodes;
 
-  /**
-   * This is the constructor for the Graph class it initializes the adjNodes map.
-   */
+  /** This is the constructor for the Graph class it initializes the adjNodes map. */
   public Graph() {
     this.adjNodes = new HashMap<>();
   }
 
   /**
    * This method adds a country to the graph as a node.
-   * 
+   *
    * @param node the country to add to the graph.
    */
   public void addNode(Country node) {
@@ -33,9 +30,9 @@ public class Graph {
   }
 
   /**
-   * This method adds an edge/link between two countries and also invokes the
-   * addNode method incase the nodes have not been added to the graph yet.
-   * 
+   * This method adds an edge/link between two countries and also invokes the addNode method incase
+   * the nodes have not been added to the graph yet.
+   *
    * @param node1 takes the first country.
    * @param node2 takes another country.
    */
@@ -47,7 +44,7 @@ public class Graph {
 
   /**
    * This method removes a country from the graph.
-   * 
+   *
    * @param node the country to be removed.
    */
   public void removeNode(Country node) {
@@ -59,7 +56,7 @@ public class Graph {
 
   /**
    * This method removes an edge between two countries.
-   * 
+   *
    * @param node1 takes the first country.
    * @param node2 takes another country.
    */
@@ -69,13 +66,13 @@ public class Graph {
   }
 
   /**
-   * This method finds the shortest path between two countries by using the
-   * breadth-first search algorithm.
-   * 
+   * This method finds the shortest path between two countries by using the breadth-first search
+   * algorithm.
+   *
    * @param start The country where the journey starts.
-   * @param end   The country where the jornery ends.
-   * @return A list of countries that represent the shortest path between the
-   *         start and end countries.
+   * @param end The country where the jornery ends.
+   * @return A list of countries that represent the shortest path between the start and end
+   *     countries.
    */
   public List<Country> routeFinder(Country start, Country end) {
     // a list of the visited countries
@@ -116,5 +113,4 @@ public class Graph {
     // if no path is found then an empty list is returned
     return Collections.emptyList();
   }
-
 }
