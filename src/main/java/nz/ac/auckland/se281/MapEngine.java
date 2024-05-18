@@ -1,13 +1,13 @@
 package nz.ac.auckland.se281;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 /** This class is the main entry point. */
 public class MapEngine {
 
-  private Set<Country> countrySet;
+  private List<Country> countryList;
   private Graph graph;
   private String sourceCountry = null;
   private String destinationCountry = null;
@@ -22,30 +22,33 @@ public class MapEngine {
   /** invoked one time only when constracting the MapEngine class. */
   private void loadMap() {
     List<String> countries = Utils.readCountries();
-    countrySet = new HashSet<>();
+    countryList = new LinkedList<>();
     for (int i = 0; i < countries.size(); i++) {
       String[] data = countries.get(i).split(",");
-      countrySet.add(new Country(String.valueOf(i), data[0], data[1], Integer.parseInt(data[2])));
+      countryList.add(new Country(String.valueOf(i), data[0], data[1], Integer.parseInt(data[2])));
     }
 
     List<String> adjacencies = Utils.readAdjacencies();
     for (String adjacency : adjacencies) {
       String[] data = adjacency.split(",");
       Country country1 = null;
-      Country country2 = null;
-      for (Country country : countrySet) {
+      for (Country country : countryList) {
         if (country.getName().equals(data[0])) {
           country1 = country;
+          break;
         }
-        for(int i = 1; i < data.length; i++) {
-          if (country.getName().equals(data[i])) {
-            country2 = country;
-            graph.addEdge(country1, country2);
+      }
+      if (country1 != null) {
+        for (int i = 1; i < data.length; i++) {
+          for (Country country : countryList) {
+            if (country.getName().equals(data[i])) {
+              graph.addEdge(country1, country);
+              break;
+            }
           }
         }
       }
     }
-
   }
 
   /** this method is invoked when the user run the command info-country. */
@@ -59,7 +62,7 @@ public class MapEngine {
       return;
     }
 
-    for (Country country : countrySet) {
+    for (Country country : countryList) {
       if (country.getName().equals(countryInput)) {
         MessageCli.COUNTRY_INFO.printMessage(country.getName(), country.getContinent(),
             String.valueOf(country.getCost()));
@@ -70,22 +73,22 @@ public class MapEngine {
 
   /** this method is invoked when the user run the command route. */
   public void showRoute() {
-    if (sourceCountry == null){
+    if (sourceCountry == null) {
       try {
-          MessageCli.INSERT_SOURCE.printMessage();
-          sourceCountry = Utils.capitalizeFirstLetterOfEachWord(Utils.scanner.nextLine());
-          sourceCountry = checkCountryInput(sourceCountry);
+        MessageCli.INSERT_SOURCE.printMessage();
+        sourceCountry = Utils.capitalizeFirstLetterOfEachWord(Utils.scanner.nextLine());
+        sourceCountry = checkCountryInput(sourceCountry);
       } catch (NonExistentCountryException e) {
         sourceCountry = null;
         showRoute();
         return;
       }
     }
-    if (destinationCountry == null){
-      try{
-          MessageCli.INSERT_DESTINATION.printMessage();
-          destinationCountry = Utils.capitalizeFirstLetterOfEachWord(Utils.scanner.nextLine());
-          destinationCountry = checkCountryInput(destinationCountry);
+    if (destinationCountry == null) {
+      try {
+        MessageCli.INSERT_DESTINATION.printMessage();
+        destinationCountry = Utils.capitalizeFirstLetterOfEachWord(Utils.scanner.nextLine());
+        destinationCountry = checkCountryInput(destinationCountry);
       } catch (NonExistentCountryException e) {
         destinationCountry = null;
         showRoute();
@@ -97,8 +100,29 @@ public class MapEngine {
       return;
     }
 
+    Country start = null;
+    Country end = null;
+    for (int i = 0; i < countryList.size(); i++) {
+      if (countryList.get(i).getName().equals(sourceCountry)) {
+        start = countryList.get(i);
+        for (int j = 0; j < countryList.size(); j++) {
+          if (countryList.get(j).getName().equals(destinationCountry)) {
+            end = countryList.get(j);
+            break;
+          }
+        }
+      }
+    }
 
-    
+    List<Country> route = graph.routeFinder(start, end);
+    List<String> shortPath = new ArrayList<>();
+    for (Country country : route) {
+      if (country != null) {
+        shortPath.add(country.getName());
+      }
+    }
+    MessageCli.ROUTE_INFO.printMessage(shortPath.toString());
+
     sourceCountry = null;
     destinationCountry = null;
   }
@@ -108,14 +132,15 @@ public class MapEngine {
    * country set.
    * 
    * @return the country input if it is valid and an exception if it is not.
-   * @throws NonExistentCountryException 
+   * @throws NonExistentCountryException
    */
-  public String checkCountryInput(String input) throws NonExistentCountryException{
-    for (Country country : countrySet) {
+  public String checkCountryInput(String input) throws NonExistentCountryException {
+    for (Country country : countryList) {
       if (country.getName().equals(input)) {
         return input;
       }
     }
-      throw new NonExistentCountryException(input);
+    throw new NonExistentCountryException(input);
   }
+
 }
