@@ -23,7 +23,6 @@ public class Graph {
     addNode(node1);
     addNode(node2);
     adjNodes.get(node1).add(node2);
-    adjNodes.get(node2).add(node1);
   }
 
   public void removeNode(Country node) {

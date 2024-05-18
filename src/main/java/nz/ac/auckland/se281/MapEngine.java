@@ -33,7 +33,7 @@ public class MapEngine {
       String[] data = adjacency.split(",");
       Country country1 = null;
       for (Country country : countryList) {
-        if (country.getName().equals(data[0])) {
+        if (data[0].equals(country.getName())) {
           country1 = country;
           break;
         }
@@ -41,9 +41,8 @@ public class MapEngine {
       if (country1 != null) {
         for (int i = 1; i < data.length; i++) {
           for (Country country : countryList) {
-            if (country.getName().equals(data[i])) {
+            if (data[i].equals(country.getName())) {
               graph.addEdge(country1, country);
-              break;
             }
           }
         }
