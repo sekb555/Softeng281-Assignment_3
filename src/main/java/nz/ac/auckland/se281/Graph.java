@@ -2,6 +2,7 @@ package nz.ac.auckland.se281;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,4 +36,22 @@ public class Graph {
     adjNodes.getOrDefault(node2, new ArrayList<>()).remove(node1);
   }
 
+
+  public List<Country> routeFinder(Country root){
+    List<Country> visited = new ArrayList<>();
+    List<Country> queue = new LinkedList<>();
+    visited.add(root);
+    queue.add(root);
+    while(!queue.isEmpty()){
+      Country node = queue.remove(0);
+      for(Country n : adjNodes.get(node)){
+        if(!visited.contains(n)){
+          visited.add(n);
+          queue.add(n);
+        }
+      }
+    }
+    return visited;
+
+  }
 }

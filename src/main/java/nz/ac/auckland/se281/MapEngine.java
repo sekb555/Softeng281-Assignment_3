@@ -8,9 +8,13 @@ import java.util.Set;
 public class MapEngine {
 
   private Set<Country> countrySet;
+  private Graph graph;
+  private String sourceCountry = null;
+  private String destinationCountry = null;
   private String countryInput;
 
   public MapEngine() {
+    graph = new Graph();
     // add other code here if you want
     loadMap(); // keep this mehtod invocation
   }
@@ -18,12 +22,28 @@ public class MapEngine {
   /** invoked one time only when constracting the MapEngine class. */
   private void loadMap() {
     List<String> countries = Utils.readCountries();
-    List<String> adjacencies = Utils.readAdjacencies();
-
     countrySet = new HashSet<>();
     for (int i = 0; i < countries.size(); i++) {
       String[] data = countries.get(i).split(",");
       countrySet.add(new Country(String.valueOf(i), data[0], data[1], Integer.parseInt(data[2])));
+    }
+
+    List<String> adjacencies = Utils.readAdjacencies();
+    for (String adjacency : adjacencies) {
+      String[] data = adjacency.split(",");
+      Country country1 = null;
+      Country country2 = null;
+      for (Country country : countrySet) {
+        if (country.getName().equals(data[0])) {
+          country1 = country;
+        }
+        for(int i = 1; i < data.length; i++) {
+          if (country.getName().equals(data[i])) {
+            country2 = country;
+            graph.addEdge(country1, country2);
+          }
+        }
+      }
     }
 
   }
@@ -31,9 +51,10 @@ public class MapEngine {
   /** this method is invoked when the user run the command info-country. */
   public void showInfoCountry() {
     try {
-      countryInput = checkCountryInput();
+      MessageCli.INSERT_COUNTRY.printMessage();
+      countryInput = Utils.capitalizeFirstLetterOfEachWord(Utils.scanner.nextLine());
+      countryInput = checkCountryInput(countryInput);
     } catch (NonExistentCountryException e) {
-      MessageCli.INVALID_COUNTRY.printMessage(countryInput);
       showInfoCountry();
       return;
     }
@@ -49,6 +70,37 @@ public class MapEngine {
 
   /** this method is invoked when the user run the command route. */
   public void showRoute() {
+    if (sourceCountry == null){
+      try {
+          MessageCli.INSERT_SOURCE.printMessage();
+          sourceCountry = Utils.capitalizeFirstLetterOfEachWord(Utils.scanner.nextLine());
+          sourceCountry = checkCountryInput(sourceCountry);
+      } catch (NonExistentCountryException e) {
+        sourceCountry = null;
+        showRoute();
+        return;
+      }
+    }
+    if (destinationCountry == null){
+      try{
+          MessageCli.INSERT_DESTINATION.printMessage();
+          destinationCountry = Utils.capitalizeFirstLetterOfEachWord(Utils.scanner.nextLine());
+          destinationCountry = checkCountryInput(destinationCountry);
+      } catch (NonExistentCountryException e) {
+        destinationCountry = null;
+        showRoute();
+        return;
+      }
+    }
+    if (sourceCountry.equals(destinationCountry)) {
+      MessageCli.NO_CROSSBORDER_TRAVEL.printMessage();
+      return;
+    }
+
+
+    
+    sourceCountry = null;
+    destinationCountry = null;
   }
 
   /**
@@ -58,14 +110,12 @@ public class MapEngine {
    * @return the country input if it is valid and an exception if it is not.
    * @throws NonExistentCountryException 
    */
-  public String checkCountryInput() throws NonExistentCountryException{
-    MessageCli.INSERT_COUNTRY.printMessage();
-    countryInput = Utils.capitalizeFirstLetterOfEachWord(Utils.scanner.nextLine());
+  public String checkCountryInput(String input) throws NonExistentCountryException{
     for (Country country : countrySet) {
-      if (country.getName().equals(countryInput)) {
-        return countryInput;
+      if (country.getName().equals(input)) {
+        return input;
       }
     }
-      throw new NonExistentCountryException();
+      throw new NonExistentCountryException(input);
   }
 }
