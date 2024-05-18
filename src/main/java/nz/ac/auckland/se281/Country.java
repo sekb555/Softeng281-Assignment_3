@@ -25,6 +25,10 @@ public class Country {
     return cost;
   }
 
+  public String getId() {
+    return id;
+  }
+
   @Override
   public int hashCode() {
     final int prime = 31;
