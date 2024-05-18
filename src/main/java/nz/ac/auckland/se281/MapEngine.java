@@ -123,8 +123,15 @@ public class MapEngine {
         continents.add(country.getContinent());
       }
     }
+    
+    int taxes = 0;
+    for(int i = 1; i < route.size(); i++) {
+      taxes += route.get(i).getCost();
+    }
+    
     MessageCli.ROUTE_INFO.printMessage(shortPath.toString());
     MessageCli.CONTINENT_INFO.printMessage(continents.toString());
+    MessageCli.TAX_INFO.printMessage(String.valueOf(taxes));
 
     sourceCountry = null;
     destinationCountry = null;
