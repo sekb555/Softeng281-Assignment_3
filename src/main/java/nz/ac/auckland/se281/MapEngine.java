@@ -8,6 +8,7 @@ import java.util.Set;
 public class MapEngine {
 
   private Set<Country> countrySet;
+  private String countryInput;
 
   public MapEngine() {
     // add other code here if you want
@@ -29,10 +30,16 @@ public class MapEngine {
 
   /** this method is invoked when the user run the command info-country. */
   public void showInfoCountry() {
-    MessageCli.INSERT_COUNTRY.printMessage();
-    String countryInput = Utils.scanner.nextLine();
+    try {
+      countryInput = checkCountryInput();
+    } catch (NullPointerException e) {
+      MessageCli.INVALID_COUNTRY.printMessage(countryInput);
+      showInfoCountry();
+      return;
+    }
+
     for (Country country : countrySet) {
-      if (country.getName().equalsIgnoreCase(countryInput)) {
+      if (country.getName().equals(countryInput)) {
         MessageCli.COUNTRY_INFO.printMessage(country.getName(), country.getContinent(),
             String.valueOf(country.getCost()));
         return;
@@ -42,5 +49,22 @@ public class MapEngine {
 
   /** this method is invoked when the user run the command route. */
   public void showRoute() {
+  }
+
+  /**
+   * This method is used to check if the country input is valid and exists in the
+   * country set.
+   * 
+   * @return the country input if it is valid and an exception if it is not.
+   */
+  public String checkCountryInput() {
+    MessageCli.INSERT_COUNTRY.printMessage();
+    countryInput = Utils.capitalizeFirstLetterOfEachWord(Utils.scanner.nextLine());
+    for (Country country : countrySet) {
+      if (country.getName().equals(countryInput)) {
+        return countryInput;
+      }
+    }
+    throw new NullPointerException();
   }
 }
