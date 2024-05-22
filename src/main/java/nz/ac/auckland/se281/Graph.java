@@ -1,7 +1,6 @@
 package nz.ac.auckland.se281;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,11 +12,11 @@ import java.util.Queue;
  * between them It also contains a method to find the shortest path between two countries.
  */
 public class Graph {
-  private Map<Country, List<Country>> adjNodes;
+  private Map<Country, List<Country>> adjCountries;
 
-  /** This is the constructor for the Graph class it initializes the adjNodes map. */
+  /** This is the constructor for the Graph class it initializes the adjCountries map. */
   public Graph() {
-    this.adjNodes = new HashMap<>();
+    this.adjCountries = new HashMap<>();
   }
 
   /**
@@ -26,7 +25,7 @@ public class Graph {
    * @param node the country to add to the graph.
    */
   public void addNode(Country node) {
-    adjNodes.putIfAbsent(node, new ArrayList<>());
+    adjCountries.putIfAbsent(node, new ArrayList<>());
   }
 
   /**
@@ -39,7 +38,7 @@ public class Graph {
   public void addEdge(Country node1, Country node2) {
     addNode(node1);
     addNode(node2);
-    adjNodes.get(node1).add(node2);
+    adjCountries.get(node1).add(node2);
   }
 
   /**
@@ -48,9 +47,9 @@ public class Graph {
    * @param node the country to be removed.
    */
   public void removeNode(Country node) {
-    adjNodes.remove(node);
-    for (Country country : adjNodes.keySet()) {
-      adjNodes.get(country).remove(node);
+    adjCountries.remove(node);
+    for (Country country : adjCountries.keySet()) {
+      adjCountries.get(country).remove(node);
     }
   }
 
@@ -61,8 +60,8 @@ public class Graph {
    * @param node2 takes another country.
    */
   public void removeEdge(Country node1, Country node2) {
-    adjNodes.getOrDefault(node1, new ArrayList<>()).remove(node2);
-    adjNodes.getOrDefault(node2, new ArrayList<>()).remove(node1);
+    adjCountries.getOrDefault(node1, new ArrayList<>()).remove(node2);
+    adjCountries.getOrDefault(node2, new ArrayList<>()).remove(node1);
   }
 
   /**
@@ -81,6 +80,7 @@ public class Graph {
     Queue<Country> queue = new LinkedList<>();
     // a map to store the path for later reconstruction
     Map<Country, Country> path = new HashMap<>(); // To reconstruct the path
+
     // add the start country to the queue and the visited list
     queue.add(start);
     visited.add(start);
@@ -100,8 +100,9 @@ public class Graph {
         }
         return route;
       }
+
       // for each adjacent country of the current country
-      for (Country n : adjNodes.get(node)) {
+      for (Country n : adjCountries.get(node)) {
         if (!visited.contains(n)) {
           visited.add(n);
           queue.add(n);
@@ -111,6 +112,6 @@ public class Graph {
     }
 
     // if no path is found then an empty list is returned
-    return Collections.emptyList();
+    return new ArrayList<>();
   }
 }

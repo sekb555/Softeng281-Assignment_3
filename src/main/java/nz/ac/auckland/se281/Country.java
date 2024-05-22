@@ -23,7 +23,9 @@ public class Country {
   }
 
   /**
-   * This method returns the name of the country for the code to use it in the output.
+   * This method returns the name of the country for the code to use it in the output. 
+   * This is used multiple times in the code to know what the country names are and 
+   * to print them.
    *
    * @return returns the name of the country as a string.
    */
@@ -33,7 +35,8 @@ public class Country {
 
   /**
    * This method returns the continent the country is located in for the code to use it in the
-   * output.
+   * output. this is used to find out which Continents the user has to travel through to get 
+   * to the destination.
    *
    * @return returns the continent the country is located in as a string.
    */
@@ -43,7 +46,8 @@ public class Country {
 
   /**
    * This method returns the cost of crossing the border to the country so that the user knows how
-   * much the trip will cost
+   * much the trip will cost. This method is used for the total cost that the trip is so that the 
+   * user knows how much all of the border crossings would cost altogether.
    *
    * @return returns the cost of crossing the border to the country as an integer.
    */
